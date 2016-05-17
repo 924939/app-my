@@ -17,10 +17,15 @@
 
             oBtn1.onclick=function(){
                 navigator.camera.getPicture(function(str){
-                    alert(str);
+                    var oImg=new Image();
+                    oImg.src=str;
+                    oImg.width=100;
+                    document.body.appendChild(oImg);
                 },function(){
                     alert('拍照失败');
-                },{});
+                },{
+                    quality : 75
+                });
             };
         },false);
     </script>
