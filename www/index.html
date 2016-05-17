@@ -9,29 +9,59 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <style>
-
+        #div1{
+            width:100%;
+            height:200px;
+            background: #ccc;
+            color: #f60;
+            font-size: 30px;
+            text-align: center;
+        }
     </style>
     <script type="text/javascript" src="cordova.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded',function(){
-            alert('页面加载完毕了');
-            //震动
-            var oBtn=document.getElementById('btn1');
-            oBtn.onclick=function(){
-                navigator.notification.vibrate(2000);
+            var oBtn1=document.getElementById('btn1');
+            var oBtn2=document.getElementById('btn2');
+            var oBtn3=document.getElementById('btn3');
+            var oDiv=document.getElementById('div1');
+
+            oBtn1.onclick=function(){
+                navigator.accelerometer.getCurrentAcceleration(function(acc){
+                    oDiv.innerHTML=acc.x+'\n'+
+                        acc.y+'\n'+
+                        acc.z+'\n'
+                    ;
+                }, function(){
+                    alert('获取失败');
+                });
             };
 
-            //报警
-            var oBtn2=document.getElementById('btn2');
-            oBtn.onclick=function(){
-                navigator.notification.beep(2);
+            var timer=null;
+            oBtn2.onclick=function(){
+                timer=navigator.accelerometer.watchAcceleration(function(acc){
+                    oDiv.innerHTML=acc.x+'\n'+
+                            acc.y+'\n'+
+                            acc.z+'\n'
+                    ;
+                },function(){
+                    oDiv.innerHTML='获取失败';
+                },{
+                    frequency:1000
+                });
+            };
+
+            oBtn3.onclick=function(){
+                navigator.accelerometer.clearWatch(timer);
             };
         },false);
     </script>
 </head>
 <body>
-<input type="button" id="btn1" value="震动">
-<input type="button" id="btn2" value="报警">
+<div id="div1"></div>
+<input type="button" id="btn1" value="获取重力感应">
+<input type="button" id="btn2" value="实时获取">
+<input type="button" id="btn3" value="关闭实时获取">
 </body>
 </html>
 
