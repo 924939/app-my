@@ -21,6 +21,8 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded',function(){
+            navigator.splashscreen.show();
+
             var oDiv=document.getElementById('div1');
 
             window.addEventListener("batterycritical", function(){
@@ -35,21 +37,6 @@
                 oDiv.innerHTML='此时电量:'+ev.level+'\n'+
                     '是否处于充电状态:'+ev.isPlugged
                 ;
-            },false);
-
-            //退出
-            document.addEventListener('backbutton',function(){
-                alert('您按退出按钮了，想多了');
-            },false);
-
-
-            //联网、断网
-            document.addEventListener('offline',function(){
-                oDiv.innerHTML='您处于断网状态';
-            },false);
-
-            document.addEventListener('online',function(){
-                oDiv.innerHTML='有网了';
             },false);
         },false);
     </script>
